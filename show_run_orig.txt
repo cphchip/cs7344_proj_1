@@ -1,0 +1,235 @@
+Switch#show run
+Building configuration...
+
+Current configuration : 4145 bytes
+!
+version 12.2(37)SE1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+!
+!
+ip dhcp excluded-address 192.168.60.1 192.168.60.10
+ip dhcp excluded-address 192.168.30.1 192.168.30.10
+ip dhcp excluded-address 192.168.50.1 192.168.50.10
+ip dhcp excluded-address 10.210.30.1 10.210.30.10
+ip dhcp excluded-address 10.210.40.1 10.210.40.10
+ip dhcp excluded-address 10.210.60.1 10.210.60.10
+!
+ip dhcp pool VLAN60
+ network 10.210.60.0 255.255.255.0
+ default-router 10.210.60.1
+ dns-server 8.8.8.8
+ip dhcp pool VLAN30
+ network 10.210.30.0 255.255.255.0
+ default-router 10.210.30.1
+ dns-server 8.8.8.8
+ip dhcp pool vlan50
+ network 192.168.50.0 255.255.255.0
+ default-router 192.168.50.1
+ dns-server 8.8.8.8
+ip dhcp pool PHONE1
+ip dhcp pool VLAN40
+ network 10.210.40.0 255.255.255.0
+ default-router 10.210.40.1
+ dns-server 8.8.8.8
+!
+!
+ip routing
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport trunk allowed vlan 30,40,60
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface FastEthernet0/2
+ switchport access vlan 50
+ switchport mode access
+ switchport voice vlan 50
+ spanning-tree portfast
+!
+interface FastEthernet0/3
+ switchport access vlan 50
+ switchport mode access
+ switchport voice vlan 50
+ spanning-tree portfast
+!
+interface FastEthernet0/4
+ switchport access vlan 50
+ switchport mode access
+ switchport voice vlan 50
+ spanning-tree portfast
+!
+interface FastEthernet0/5
+ switchport access vlan 20
+ switchport mode access
+!
+interface FastEthernet0/6
+ switchport access vlan 20
+ switchport mode access
+!
+interface FastEthernet0/7
+ switchport access vlan 20
+ switchport mode access
+!
+interface FastEthernet0/8
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/9
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/10
+ switchport access vlan 10
+ switchport mode access
+!
+interface FastEthernet0/11
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet0/12
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/13
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/13
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/14
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/15
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/16
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/17
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/18
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/19
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/20
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/21
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/22
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/23
+ switchport access vlan 70
+ switchport mode access
+!
+interface FastEthernet0/24
+ switchport access vlan 70
+ switchport mode access
+!
+interface GigabitEthernet0/1
+ switchport trunk allowed vlan 100
+!
+interface GigabitEthernet0/2
+ switchport access vlan 70
+ switchport mode access
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ mac-address 000b.be7b.9001
+ ip address 10.210.10.1 255.255.255.0
+!
+interface Vlan20
+ mac-address 000b.be7b.9002
+ ip address 10.210.20.1 255.255.255.0
+!
+interface Vlan30
+ mac-address 000b.be7b.9003
+ ip address 10.210.30.1 255.255.255.0
+!
+interface Vlan40
+ mac-address 000b.be7b.9004
+ ip address 10.210.40.1 255.255.255.0
+!
+interface Vlan50
+ mac-address 000b.be7b.9005
+ ip address 10.210.50.1 255.255.255.0
+!
+interface Vlan60
+ mac-address 000b.be7b.9006
+ ip address 10.210.60.1 255.255.255.0
+!
+interface Vlan70
+ mac-address 000b.be7b.9007
+ ip address 10.210.70.1 255.255.255.0
+ shutdown
+!
+interface Vlan100
+ mac-address 000b.be7b.9008
+ ip address 10.210.100.2 255.255.255.0
+!
+router rip
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 192.168.100.1 
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+!
+end
