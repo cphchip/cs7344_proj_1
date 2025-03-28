@@ -32,7 +32,7 @@ vlan 30
 name GUEST_WIFI
 !
 vlan 40
-name PERSONAL_DEVICES
+name FINANCE
 !
 vlan 50
 name VOIP
@@ -48,55 +48,59 @@ name MANAGEMENT
 !
 ip routing
 !
+ip default-gateway 10.200.100.2
+ip classless
+ip route 0.0.0.0 0.0.0.0 10.200.100.2 
+!
 interface Vlan10
- mac-address 000b.be7b.9001
  ip address 10.200.10.1 255.255.255.0
+ no shutdown
 !
 interface Vlan20
- mac-address 000b.be7b.9002
  ip address 10.200.20.1 255.255.255.0
+ no shutdown
 !
 interface Vlan30
- mac-address 000b.be7b.9003
  ip address 10.200.30.1 255.255.255.0
+ no shutdown
 !
 interface Vlan40
- mac-address 000b.be7b.9004
  ip address 10.200.40.1 255.255.255.0
+ no shutdown
 !
 interface Vlan50
- mac-address 000b.be7b.9005
  ip address 10.200.50.1 255.255.255.0
+ no shutdown
 !
 interface Vlan60
- mac-address 000b.be7b.9006
  ip address 10.200.60.1 255.255.255.0
+ no shutdown
 !
 interface Vlan70
- mac-address 000b.be7b.9007
  ip address 10.200.70.1 255.255.255.0
+ no shutdown
 !
 interface Vlan100
- mac-address 000b.be7b.9008
  ip address 10.200.100.1 255.255.255.0
+ no shutdown
 !
 !
-interface GigabitInternet0/1
-description MGT_WAP_60
+interface FastEthernet0/1
+description HQ_WAP_60
 switchport trunk encapsulation dot1q
 switchport trunk native vlan 60
 switchport trunk allowed vlan 10,20,30,40,50,60,70,100
 switchport mode trunk
 !
 interface FastEthernet0/2
-description MGT_WAP_30
+description HQ_WAP_30
 switchport trunk encapsulation dot1q
 switchport trunk native vlan 30
 switchport trunk allowed vlan 10,20,30,40,50,60,70,100
 switchport mode trunk
 !
 interface FastEthernet0/3
-description MGT_WAP_40
+description HQ_WAP_40
 switchport trunk encapsulation dot1q
 switchport trunk native vlan 40
 switchport trunk allowed vlan 10,20,30,40,50,60,70,100
@@ -134,6 +138,23 @@ description OTHER_DEVICES
 switchport access vlan 70
 switchport mode access
 spanning-tree portfast
+!
+interface GigabitEthernet0/1
+ description CENTRAL_ROUTER_200
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 20,30,40,60,70,100
+ switchport mode trunk
+ shut
+!
+interface GigabitEthernet0/2
+ description CENTRAL_ROUTER_200
+ switchport access vlan 100
+ switchport trunk native vlan 100
+ switchport trunk allowed vlan 10,20,30,40,50,60,70,100
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
 !
 ip dhcp excluded-address 10.200.10.1 10.200.10.10
 ip dhcp excluded-address 10.200.20.1 10.200.20.10
@@ -185,14 +206,5 @@ ip dhcp pool MANAGEMENT_VLAN100
    network 10.200.100.0 255.255.255.0
    default-router 10.200.100.1
    dns-server 8.8.8.8
-!
-!
-!
-interface GigabitEthernet0/1
-description MODEM
-switchport trunk encapsulation dot1q
-switchport trunk native vlan 100
-switchport trunk allowed vlan 20,30,40,60,70,100
-switchport mode trunk
 !
 end

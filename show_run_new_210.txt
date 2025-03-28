@@ -189,10 +189,12 @@ ip dhcp pool MANAGEMENT_VLAN100
 !
 !
 interface GigabitEthernet0/1
-description MODEM
+description CENTRAL_ROUTER_210
 switchport trunk encapsulation dot1q
 switchport trunk native vlan 100
 switchport trunk allowed vlan 20,30,40,60,70,100
 switchport mode trunk
 !
+Interface GigabitEthernet0/2
+shut
 end
