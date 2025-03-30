@@ -1,0 +1,205 @@
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname SW-REM-CTR-02
+boot-start-marker
+boot-end-marker
+!
+logging count
+logging buffered 8192 informational
+logging reload message-limit 50
+logging rate-limit all 15 except critical
+aaa session-id common
+clock timezone CST -6
+clock summer-time CST recurring
+system mtu routing 1500
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+vlan 10
+name ADMINISTRATIVE
+!
+vlan 20
+name APP_DEVICES
+!
+vlan 30
+name GUEST_WIFI
+!
+vlan 40
+name PERSONAL_DEVICES
+!
+vlan 50
+name VOIP
+!
+vlan 60
+name CORP_WIFI
+!
+vlan 70
+name OTHER_DEVICES
+!
+vlan 100
+name MANAGEMENT
+!
+ip routing
+!
+!
+ip default-gateway 10.220.100.2
+ip classless
+ip route 0.0.0.0 0.0.0.0 10.220.100.2 
+!
+interface Vlan10
+ mac-address 000b.be7b.9001
+ ip address 10.220.10.1 255.255.255.0
+!
+interface Vlan20
+ mac-address 000b.be7b.9002
+ ip address 10.220.20.1 255.255.255.0
+!
+interface Vlan30
+ mac-address 000b.be7b.9003
+ ip address 10.220.30.1 255.255.255.0
+!
+interface Vlan40
+ mac-address 000b.be7b.9004
+ ip address 10.220.40.1 255.255.255.0
+!
+interface Vlan50
+ mac-address 000b.be7b.9005
+ ip address 10.220.50.1 255.255.255.0
+!
+interface Vlan60
+ mac-address 000b.be7b.9006
+ ip address 10.220.60.1 255.255.255.0
+!
+interface Vlan70
+ mac-address 000b.be7b.9007
+ ip address 10.220.70.1 255.255.255.0
+!
+interface Vlan100
+ mac-address 000b.be7b.9008
+ ip address 10.220.100.1 255.255.255.0
+!
+!
+interface FastEthernet0/1
+description MGT_WAP_60
+switchport trunk encapsulation dot1q
+switchport trunk native vlan 60
+switchport trunk allowed vlan 10,20,30,40,50,60,70,100
+switchport mode trunk
+!
+interface FastEthernet0/2
+description MGT_WAP_30
+switchport trunk encapsulation dot1q
+switchport trunk native vlan 30
+switchport trunk allowed vlan 10,20,30,40,50,60,70,100
+switchport mode trunk
+!
+interface FastEthernet0/3
+description MGT_WAP_40
+switchport trunk encapsulation dot1q
+switchport trunk native vlan 40
+switchport trunk allowed vlan 10,20,30,40,50,60,70,100
+switchport mode trunk
+!
+interface range FastEthernet0/4
+description MANAGEMENT_DEVICES
+switchport access vlan 100
+spanning-tree portfast
+!
+interface range FastEthernet0/5-9
+description IP_PHONE_AND_ADMINISTRATIVE_DESKTOPS
+switchport access vlan 10
+switchport mode access
+switchport voice vlan 50
+spanning-tree portfast
+!
+!
+interface range FastEthernet0/10-14
+description E_PRO
+switchport access vlan 20
+switchport mode access
+switchport voice vlan 50
+spanning-tree portfast
+!
+interface range FastEthernet0/15-19
+description PERSONAL
+switchport access vlan 40
+switchport mode access
+switchport voice vlan 50
+spanning-tree portfast
+!
+interface range FastEthernet0/20-24
+description OTHER_DEVICES
+switchport access vlan 70
+switchport mode access
+spanning-tree portfast
+!
+ip dhcp excluded-address 10.220.10.1 10.220.10.10
+ip dhcp excluded-address 10.220.20.1 10.220.20.10
+ip dhcp excluded-address 10.220.30.1 10.220.30.10
+ip dhcp excluded-address 10.220.40.1 10.220.40.10
+ip dhcp excluded-address 10.220.50.1 10.220.50.10
+ip dhcp excluded-address 10.220.60.1 10.220.60.10
+ip dhcp excluded-address 10.220.70.1 10.220.70.10
+ip dhcp excluded-address 10.220.100.1 10.220.100.20
+!
+!
+!
+ip dhcp pool ADMINISTRATIVE_VLAN10
+   network 10.220.10.0 255.255.255.0   
+   default-router 10.220.10.1
+   dns-server 8.8.8.8
+!
+ip dhcp pool EPRO_DEVICES_VLAN20
+   network 10.220.20.0 255.255.255.0
+   default-router 10.220.20.1
+   dns-server 8.8.8.8
+!
+ip dhcp pool GUEST_WIFI_VLAN30
+   network 10.220.30.0 255.255.255.0
+   dns-server 8.8.8.8
+   default-router 10.220.30.1
+!
+ip dhcp pool COLLECTION_DEVICES_VLAN40
+   network 10.220.40.0 255.255.255.0
+   default-router 10.220.40.1
+   dns-server 8.8.8.8
+!
+ip dhcp pool VOIP_VLAN50
+   network 10.220.50.0 255.255.255.0
+   default-router 10.220.50.1
+   dns-server 8.8.8.8
+!
+ip dhcp pool CORP_WIFI_VLAN60
+   network 10.220.60.0 255.255.255.0
+   default-router 10.220.60.1
+   dns-server 8.8.8.8
+!
+ip dhcp pool OTHER_DEVICES_VLAN70
+   network 10.220.70.0 255.255.255.0
+   default-router 10.220.70.1
+   dns-server 8.8.8.8
+!
+ip dhcp pool MANAGEMENT_VLAN100
+   network 10.220.100.0 255.255.255.0
+   default-router 10.220.100.1
+   dns-server 8.8.8.8
+!
+!
+!
+interface GigabitEthernet0/1
+description CENTRAL_ROUTER_220
+switchport trunk encapsulation dot1q
+switchport trunk native vlan 100
+switchport trunk allowed vlan 20,30,40,60,70,100
+switchport mode trunk
+!
+Interface GigabitEthernet0/2
+shut
+end
